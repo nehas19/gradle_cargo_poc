@@ -1,0 +1,193 @@
+apply plugin: 'jetty'
+apply plugin: 'java'
+apply plugin: 'sonar'
+apply plugin: 'sonar-runner'
+apply plugin: 'cobertura'
+apply plugin: "jacoco"
+apply plugin: 'jdepend'
+apply plugin: 'project-report'
+apply plugin: 'com.bmuschko.tomcat'
+apply plugin: 'java-library-distribution'
+apply plugin: 'com.bmuschko.cargo'
+apply plugin: 'com.bmuschko.clover'
+//apply plugin: 'com.bmuschko.clover'
+
+buildscript {
+  repositories {
+    mavenCentral()
+     jcenter()
+  }
+  dependencies {
+    classpath 'net.saliman:gradle-cobertura-plugin:2.2.4'
+    classpath 'com.bmuschko:gradle-clover-plugin:2.0.1'
+      classpath 'com.bmuschko:gradle-tomcat-plugin:2.0'
+       classpath 'com.bmuschko:gradle-cargo-plugin:2.0.3'
+      
+    
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+//localGroovy()
+	//gradleApi()
+      compile "org.codehaus.sonar.runner:sonar-runner-api:2.4"
+      compile 'javax.persistence:persistence-api:1.0.2'
+      compile (['javax.servlet:jstl:1.2'],
+    			['org.slf4j:jcl-over-slf4j:1.7.5'],
+  				[ 'org.slf4j:slf4j-log4j12:1.7.5'],
+ 			    ['commons-io:commons-io:2.4'],
+                ['org.hibernate:hibernate-core:4.3.1.Final'],
+ 				 ['org.hibernate:hibernate-entitymanager:4.3.1.Final'],
+ 				 ['mysql:mysql-connector-java:5.1.34'],
+ 				 ['org.springframework:spring-core:4.1.4.RELEASE'],
+ 				 ['org.springframework:spring-jdbc:4.1.4.RELEASE'],
+ 				 ['org.springframework:spring-web:4.1.4.RELEASE'],
+ 				 ['org.springframework:spring-webmvc:4.1.4.RELEASE'],
+ 				 ['org.springframework:spring-tx:4.1.4.RELEASE'],
+  				 ['org.springframework:spring-orm:4.1.4.RELEASE'],
+  				 ['javax.servlet:javax.servlet-api:3.1.0'],
+   
+   				 ['org.slf4j:slf4j-simple:1.7.5'],
+  				 ['org.slf4j:slf4j-log4j12:1.7.5'],
+  				 ['mysql:mysql-connector-java:5.1.16'],
+   
+  				 ['jstl:jstl:1.2'],
+  				 ['org.gradle.api.plugins:gradle-tomcat-plugin:0.9.9']
+   )
+ 
+    testCompile (['junit:junit:4.12'],
+    ['org.codehaus.mojo:sonar-maven-plugin:2.5'],
+       ['org.seleniumhq.selenium:selenium-firefox-driver:2.44.0'],
+	   ['org.seleniumhq.selenium:selenium-server:2.44.0'],
+	   ['org.springframework:spring-test:4.1.4.RELEASE'],
+	   ['com.fasterxml.jackson.core:jackson-databind:2.5.0'],
+	   ['com.fasterxml.jackson.core:jackson-core:2.5.0'],
+	   ['org.hamcrest:hamcrest-all:1.3'],
+	   ['org.mockito:mockito-all:1.10.19'],
+	
+       ['com.cenqua.clover:clover:3.2.0'])
+       
+       def tomcatVersion = '7.0.52'
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+           "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+    tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
+        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+    }
+
+def cargoVersion = '1.4.5'
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+          "org.codehaus.cargo:cargo-ant:$cargoVersion"
+clover 'com.cenqua.clover:clover:3.2.0'
+
+
+}
+
+ cobertura {
+             coverageFormats = ['xml', 'html']
+          }
+ 
+ 
+ sonar {
+ //toolVersion = "2.4"
+    server {
+       url = "http://172.27.59.105:9000/sonar"
+    }
+    database {
+       url = "jdbc:mysql://localhost:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance"
+        driverClassName = "com.mysql.jdbc.Driver"
+        username = "root"
+        password = "root"
+    }
+    }
+
+ 
+// clover {
+   //classesBackupDir = file("${sourceSets.main.classesDir}-backup")
+  //  licenseLocation = file("$buildDir/clover.license")
+  //  excludes = ['**/SynchronizedMultiValueMap.java']
+   // targetPercentage = '10%'
+//
+   
+
+ //  report {
+   //    html = true
+ //     pdf = true
+  //    filter = 'log,if,else'
+ //  }
+//}
+
+
+
+
+
+sonarRunner {
+
+//toolVersion = "2.4"
+ 
+sonarProperties {
+property "sonar.host.url", "http://172.27.59.105:9000/sonar/"
+property "sonar.jdbc.url", "jdbc:mysql://localhost:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance"
+property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
+property "sonar.jdbc.username", "root"
+property "sonar.jdbc.password", "root"
+}
+}
+
+distributions {
+main {
+baseName = 'my-name'
+contents {
+from { 'src/dist' }
+}
+}
+}
+
+tomcat {
+    httpPort = 5006
+
+    enableSSL = true
+
+    users {
+        user {
+            username = 'admin'
+            password = 'admin'
+            roles = ['admin']
+        }
+
+       
+    }
+}
+
+cargo {
+    containerId = 'tomcat7x'
+    port = 5006
+
+    deployable {
+        context = '/web-hello-world'
+    }
+
+    remote {
+        hostname = '172.27.59.105'
+        username = 'admin'
+        password = 'admin'
+    }
+
+    local {
+       // homeDir = file('C:/Program Files/Apache Software Foundation/Tomcat 7.0')
+       // outputFile = file('build/output.log')
+        //timeout = 60000
+
+        containerProperties {
+            property 'cargo.tomcat.ajp.port', 9099
+        }
+    }
+}
+
+
+
+
+

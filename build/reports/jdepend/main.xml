@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<JDepend>
+    <Packages>
+
+        <Package name="com.sample.mvc.controller">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>6</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="EmployeeController.java">
+                    com.sample.mvc.controller.EmployeeController
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>com.sample.mvc.model</Package>
+                <Package>com.sample.mvc.service</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>org.springframework.ui</Package>
+                <Package>org.springframework.web.servlet</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="com.sample.mvc.dao">
+            <Stats>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>4</Ce>
+                <A>0.5</A>
+                <I>0.8</I>
+                <D>0.3</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="EmployeeDAO.java">
+                    com.sample.mvc.dao.EmployeeDAO
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="EmployeeDAOImpl.java">
+                    com.sample.mvc.dao.EmployeeDAOImpl
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>com.sample.mvc.model</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>org.hibernate</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>com.sample.mvc.service</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="com.sample.mvc.model">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>3</Ca>
+                <Ce>1</Ce>
+                <A>0</A>
+                <I>0.25</I>
+                <D>0.75</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="EmployeeCommand.java">
+                    com.sample.mvc.model.EmployeeCommand
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>java.lang</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>com.sample.mvc.controller</Package>
+                <Package>com.sample.mvc.dao</Package>
+                <Package>com.sample.mvc.service</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="com.sample.mvc.service">
+            <Stats>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>4</Ce>
+                <A>0.5</A>
+                <I>0.8</I>
+                <D>0.3</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="EmployeeService.java">
+                    com.sample.mvc.service.EmployeeService
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="EmployeeServiceImpl.java">
+                    com.sample.mvc.service.EmployeeServiceImpl
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>com.sample.mvc.dao</Package>
+                <Package>com.sample.mvc.model</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>com.sample.mvc.controller</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="java.lang">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.util">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.hibernate">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.springframework.ui">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.springframework.web.servlet">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+    </Packages>
+
+    <Cycles>
+    </Cycles>
+</JDepend>
